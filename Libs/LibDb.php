@@ -4,35 +4,68 @@
 
 class libDb {
 
-    function dbConnect()
+    private $host = '';
+    private $user = '';
+    private $password = '';
+
+    private $db = '';
+
+    private $connection = null;
+
+    private $select;
+    private $from;
+    private $where;
+    private $limit;
+
+    public function __construct()
     {
-        $conn = new mysqli('localhost', 'root', '');
+        $config = Config::get('database');
+
+        if (!$config) return;
+
+        $this->host = $config['host'];
+        $this->user = $config['user'];
+        $this->password = $config['password'];
+        $this->db_name = $config['db_name'];
+
+        $this->dbConnect();
+
+        if (!$this->connection) return;
+
+        if ($this->db_name){
+            $this->dbSelect();
+        }
+    }
+
+    private function dbConnect()
+    {
+        $conn = new mysqli($this->host, $this->user, $this->password);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        return $conn;
+        $this->connection = $conn;
     }
 
-    function dbSelect($connection, $dbName)
+    private function dbSelect()
     {
-        return mysqli_select_db($connection, $dbName);
+        return mysqli_select_db($this->connection, $this->db_name);
     }
 
-    function dbClose($connection)
+    public function dbClose()
     {
-        $connection->close();
+        $this->connection->close();
     }
 
-    function dbQuery($connection, $query)
+    public function query($query)
     {
-        return mysqli_query($connection, $query);
+        return mysqli_query($this->connection, $query);
     }
 
-    function dbFetchQuery($connection, $query)
+    public function fetchQuery($query)
     {
-        $data = dbQuery($connection, $query);
+        $data = $this->query($query);
 
         $result = [];
 
@@ -43,16 +76,15 @@ class libDb {
         return $result;
     }
 
-    function dbShowDatabases($connection)
+    public function dbShowDatabases()
     {
         $sql = 'SHOW DATABASES';
-        $result = dbFetchQuery($connection, $sql);
+        $result = $this->dbFetchQuery($sql);
 
         echo '<b>Current databases:</b> <br/>';
         foreach($result as $row){
             echo ($row['Database'] . '<br/>');
         }
-
     }
 
 

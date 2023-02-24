@@ -28,7 +28,6 @@ class LibProm {
 
     public function printOrders($orders)
     {
-
         echo "<TABLE>";
         foreach ($orders as $item){
 

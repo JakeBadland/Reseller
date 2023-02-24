@@ -8,7 +8,7 @@ return [
         'Helpers'
     ],
 
-    'db' => [
+    'database' => [
         'host'          => 'localhost',
         'user'          => 'root',
         'password'      => '',
@@ -17,7 +17,7 @@ return [
 
     'prom' => [
         'token'    => '0bdfa79dd84a89d0ce54e02eed6a212d38c20e9b',
-        'api_url'      => 'my.prom.ua',
+        'api_url'      => 'https://my.prom.ua',
     ],
 
     'settings' => [
