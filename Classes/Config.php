@@ -15,6 +15,17 @@ class Config {
         self::$config = include_once($configFile);
     }
 
+    public static function getEnv($param)
+    {
+        $env = parse_ini_file('.env');
+
+        foreach ($env as $key => $item){
+            if ($key == $param) return $item;
+        }
+
+        return null;
+    }
+
     public static function get($section = null, $key = null)
     {
         if (!$section){
