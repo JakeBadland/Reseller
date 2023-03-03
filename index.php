@@ -5,6 +5,13 @@ const DS = DIRECTORY_SEPARATOR;
 include_once 'autoload.php';
 include_once 'Classes' . DS . 'Config.php';
 
+/*
+$dt = new \DateTime();
+$dt->setTimestamp(1584915938);
+echo $dt->format('Y.m.d H:i:s');
+die;
+*/
+
 Config::init();
 
 $apiUrl = Config::get('prom', 'api_url');
@@ -15,9 +22,4 @@ $prom = new libProm($apiUrl, $token);
 $orders = $prom->getOrders(0, 20);
 
 $prom->printOrders($orders);
-
-//parseAddress("Костянтинівка (Донецька обл.), №31312321:(до 200 кг) вул. Громова, 9а");
-
-//$curl = $client->getCurl($url . $path . '?'.http_build_query(array('status'=>'pending')));
-
 

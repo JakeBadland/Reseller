@@ -1,5 +1,7 @@
 <?php
 
+const PRICE_TYPE = 'налож*';
+
 class OrderParser{
 
     public static function parseOrder($order) : PromOrder
@@ -7,7 +9,7 @@ class OrderParser{
         $result = new PromOrder();
 
         $date = strtotime($order->date_created);
-        $date = date('d.m.Y', $date);
+        $date = date('d,m,Y', $date);
 
         $result->store = 'Юг/опт';
         $result->name = trim($order->client_first_name) . ' ' . trim($order->client_last_name);
@@ -16,19 +18,45 @@ class OrderParser{
         $result->deliveryProvider = self::parseDelivery($order->delivery_address, $order->delivery_provider_data);
         $result->date = $date;
         $result->id = $order->id;
-        $result->price =  preg_replace('/[^0-9]/', '', $order->full_price);
+
+        $result->description = '';
+        $result->purchaseType = self::parsePurchaseType($order->payment_option->name);
+        $result->price = self::parsePrice($result->purchaseType, $order->full_price);
+        $result->status = $order->status;
 
         $result->system = 'S_OK';
 
         /*
-
-        $description;//I [п
-        $purchaseType;//J т
         $description1 = '';
         $description2 = '';
         */
 
         return $result;
+
+    }
+
+    private static function parsePrice($type, $price)
+    {
+        $price = preg_replace('/[^0-9]/', '', $price);
+
+        if ($type == PRICE_TYPE){
+            $percent = $price / 10;
+            $temp = round($percent, -2);
+            return "$price - $temp = " . $price - $temp;
+        } else {
+            return $price;
+        }
+
+
+    }
+
+    private static function parsePurchaseType($type) : ?string
+    {
+        switch ($type){
+            case 'На карту "Приват Банка"': {return 'БАНК*';}
+            case 'Наложенный платеж': { return 'налож*';}
+            default: return null;
+        }
 
     }
 
@@ -42,6 +70,8 @@ class OrderParser{
         switch ($deliveryData->provider){
             case 'nova_poshta' : {
                 return 'Новая почта ' . self::getDelivery($deliveryAddress);
+                //if (!$addr) return '';
+                //return 'Новая почта ' . $addr;
             }
             default: return '$deliveryData->provider not accepted: ' . $deliveryData->provider;
         }

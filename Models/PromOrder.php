@@ -16,6 +16,7 @@ class PromOrder {
     public $description1 = ''; //K
     public $description2 = ''; //L
 
+    public $status;
     public $system = '';
 
 }

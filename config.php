@@ -5,7 +5,8 @@ return [
         'Libs',
         'Classes',
         'Objects',
-        'Helpers'
+        'Helpers',
+        'Models'
     ],
 
     'database' => [
@@ -21,7 +22,7 @@ return [
     ],
 
     'settings' => [
-        'xls_file'      => 'Data' . DS . 'Юг 2022.xlsx',
-        'xls_dir'       => 'Data' . DS . 'worksheets',
+        'views'       => 'Views',
+        //'layouts'      => 'Views' . DS . 'Layouts',
     ],
 ];

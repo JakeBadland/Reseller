@@ -28,40 +28,12 @@ class LibProm {
 
     public function printOrders($orders)
     {
-        echo "<TABLE>";
-        foreach ($orders as $item){
+        $renderer = new LibRenderer();
 
-            $order = OrderParser::parseOrder($item);
+        $view = 'Orders\orders';
 
-            /*
-            if (!$item->delivery_address){
-                echo '<PRE>';
-                var_dump($item);
-                echo '</PRE>';
-                die;
-            }
-            */
-
-            $back = '';
-            if (!$order->address){
-                $back = "style='background-color: red'>";
-                $order->address = 'Не удалось определить адресс!';
-            }
-
-            echo "<TR $back>";
-            echo "<TD>{$order->store}</TD>";
-            echo "<TD>{$order->name}</TD>";
-            echo "<TD>{$order->phone}</TD>";
-            echo "<TD>{$order->address}</TD>";
-            echo "<TD>{$order->date}</TD>";
-            echo "<TD>{$order->id}</TD>";
-            echo "<TD>{$order->price}</TD>";
-            echo "<TD>{$order->deliveryProvider}</TD>";
-            echo "<TD></TD>";
-            echo "</TR>";
-        }
-        echo "</TABLE>";
-
+        $renderer->render($view, ['orders' => $orders]);
+        die;
     }
 
     /**
