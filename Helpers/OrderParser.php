@@ -9,7 +9,7 @@ class OrderParser{
         $result = new PromOrder();
 
         $date = strtotime($order->date_created);
-        $date = date('d,m,Y', $date);
+        $date = date('d.m.Y', $date);
 
         $result->store = 'Юг/опт';
         $result->name = trim($order->client_first_name) . ' ' . trim($order->client_last_name);
@@ -42,7 +42,8 @@ class OrderParser{
         if ($type == PRICE_TYPE){
             $percent = $price / 10;
             $temp = round($percent, -2);
-            return "$price - $temp = " . $price - $temp;
+            $result = $price - $temp;
+            return  "$price - $temp = $result";
         } else {
             return $price;
         }

@@ -4,11 +4,12 @@ class libRenderer {
 
     public function render($view, $data)
     {
-
+        $view = str_replace('\\', DS, $view);
 
         $viewsDir = Config::get('settings', 'views');
-        $viewFile = __DIR__ .  DS . '..' . DS . $viewsDir . DS . $view . '.php';
-        $layoutFile = __DIR__ .  DS . '..' . DS . $viewsDir . DS .  'Layouts' .DS. 'main.php';
+
+        $viewFile = ROOT . DS . $viewsDir . DS . $view . '.php';
+        $layoutFile = ROOT . DS . $viewsDir . DS .  'Layouts' .DS. 'main.php';
 
         if (!is_file($viewFile)){
             die("View file: $viewFile not found!");
