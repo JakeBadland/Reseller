@@ -1,9 +1,10 @@
 <TABLE>
-    <?php foreach ($orders as $item): ?>
+    <?php foreach ($orders as $key => $item): ?>
 
         <?php $order = OrderParser::parseOrder($item); ?>
 
         <?php $back = ''; ?>
+
 
         <?php if (!$order->address || !$order->deliveryProvider) : ?>
             <?php $back = "style='background-color: red'"; ?>
@@ -13,11 +14,11 @@
             <?php $back = "style='background-color: yellow'"; ?>
         <?php endif ?>
 
-        <TR <?=$back?> >
-            <TD>
-                <BUTTON class="copy">Copy</BUTTON>
+        <TR id="tr<?=$key?>" >
+            <TD >
+                <BUTTON <?=$back?> class="copy">Copy</BUTTON>
             </TD>
-            <TD><?= $order->store ?></TD>
+            <TD class="storeName" style="background-color: rgb(150,0,0)"><?= $order->store ?></TD>
             <TD><?= $order->name ?></TD>
             <TD><?= $order->phone ?></TD>
             <TD><?= $order->address ?></TD>
@@ -26,7 +27,7 @@
             <TD><?= $order->price ?></TD>
             <TD><?= $order->deliveryProvider ?></TD>
             <TD><?= $order->description ?></TD>
-            <TD><?= $order->purchaseType ?></TD>
+            <TD style="background-color: rgb(255,0,255)"><?= $order->purchaseType ?></TD>
             <!--<TD><?= strtoupper($order->status) ?></TD>-->
         </TR>
 
@@ -37,14 +38,35 @@
     $(document).ready(function () {
 
         $('body').on('click', '.copy', function () {
+            let $parentTr = $(this).closest('tr');
+            let $parentTd = $(this).closest('td');
+
+            let urlField = $parentTr.get(0);
+            $(this).parent('td').remove();
+
+            // create a Range object
+            let range = document.createRange();
+            // set the Node to select the "range"
+            range.selectNode(urlField);
+            // add the Range to the set of window selections
+            window.getSelection().addRange(range);
+
+            // execute 'copy', can't 'cut' in this case
+            document.execCommand('copy');
+
+            window.getSelection().removeAllRanges();
+            $parentTr.prepend($parentTd);
+
+            /*
             let tmpElement = $('<textarea style="opacity:0;"></textarea>');
             let parent = $(this).closest('td').siblings().each(function () {
-                tmpElement.text(tmpElement.text() + $(this).text() + '\t');
+                tmpElement.html(tmpElement.html() + $(this).html() + '\t'); //
             });
 
             tmpElement.appendTo($('body')).focus().select();
             document.execCommand("copy");
             tmpElement.remove();
+            */
         })
 
     });

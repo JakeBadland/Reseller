@@ -1,6 +1,23 @@
 <?php
 
 /*
+$db = new LibDb();
+
+$result = $db->select('*')
+    ->from('test')
+    ->find();
+
+$result = $db->insert('test' , 'data', "'insert test value'");
+
+$params = [
+    'data' => 'update data 2',
+    ''
+];
+
+$result = $db->update('test' , $params, "id = 4");
+*/
+
+/*
 $dt = new \DateTime();
 $dt->setTimestamp(1584915938);
 echo $dt->format('Y.m.d H:i:s');
