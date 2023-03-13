@@ -6,7 +6,7 @@ class Config {
 
     public static function init()
     {
-        $configFile = __DIR__ . DS . '..' . DS . 'config.php';
+        $configFile = __DIR__ . DS;
 
         if(!file_exists($configFile)){
             self::writeDefault($configFile);

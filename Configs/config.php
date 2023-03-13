@@ -2,6 +2,7 @@
 
 return [
     'autoloads' => [
+        'Controllers',
         'Libs',
         'Classes',
         'Objects',
