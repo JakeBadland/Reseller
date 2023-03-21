@@ -11,7 +11,7 @@ const ROOT = __DIR__;
 
 include_once './Core/App.php';
 
-(new \Core\App())->run();
+(new Core\App())->run();
 
 //include_once './Core/autoload.php';
 //include_once 'vendor/autoload.php';

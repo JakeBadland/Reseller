@@ -1,12 +1,14 @@
 <?php
 
+namespace Helpers;
+
 const PRICE_TYPE = 'налож*';
 
 class OrderParser{
 
-    public static function parseOrder($order) : PromOrder
+    public static function parseOrder($order)
     {
-        $result = new PromOrder();
+        $result = new \Models\PromOrder();
 
         $date = strtotime($order->date_created);
         $date = date('d.m.Y', $date);
@@ -20,7 +22,7 @@ class OrderParser{
         $result->id = $order->id;
 
         $result->description = '';
-        $result->purchaseType = self::parsePurchaseType($order->payment_option->name);
+        $result->purchaseType = self::parsePurchaseType($order->payment_option);
         $result->price = self::parsePrice($result->purchaseType, $order->full_price);
         $result->status = $order->status;
 
@@ -51,9 +53,13 @@ class OrderParser{
 
     }
 
-    private static function parsePurchaseType($type) : ?string
+    private static function parsePurchaseType($paymentOption) : ?string
     {
-        switch ($type){
+        if (!isset($paymentOption->name)){
+            return null;
+        }
+
+        switch ($paymentOption->name){
             case 'На карту "Приват Банка"': {return 'БАНК*';}
             case 'Наложенный платеж': { return 'налож*';}
             default: return null;

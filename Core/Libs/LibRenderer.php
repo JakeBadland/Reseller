@@ -1,15 +1,15 @@
 <?php
 
+namespace Core\Libs;
+
 class libRenderer {
 
-    public function render($view, $data)
+    public function render($view, $data = null)
     {
         $view = str_replace('\\', DS, $view);
 
-        $viewsDir = Config::get('settings', 'views');
-
-        $viewFile = ROOT . DS . $viewsDir . DS . $view . '.php';
-        $layoutFile = ROOT . DS . $viewsDir . DS .  'Layouts' .DS. 'main.php';
+        $viewFile = __DIR__ . DS . '..' . DS  . '..' . DS . 'Views' . DS . $view . '.php';
+        $layoutFile = __DIR__ . DS . '..' . DS . '..'. DS .'Views' . DS .  'Layouts' . DS . 'main.php';
 
         if (!is_file($viewFile)){
             die("View file: $viewFile not found!");

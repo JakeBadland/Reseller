@@ -1,6 +1,7 @@
 <?php
 
-//namespace Libs\LibCurl;
+
+namespace Core\Libs;
 
 class LibCurl
 {
@@ -12,7 +13,7 @@ class LibCurl
     private $url = 'https://my.prom.ua/cms/order/context?page=1&per_page=20';
     //private $url = 'https://my.prom.ua/cms/order/context?page=2&per_page=20';
 
-    public function execute($url, $headers = null, $cookies = null) : CurlResponse
+    public function execute($url, $headers = null, $cookies = null) : \Models\CurlResponse
     {
         $curl = $this->getCurl($url);
 
@@ -35,7 +36,7 @@ class LibCurl
             //die("http code != 200");
         }
 
-        $result = new CurlResponse($httpCode, $headerStr, $bodyStr);
+        $result = new \Models\CurlResponse($httpCode, $headerStr, $bodyStr);
 
         curl_close($curl);
 

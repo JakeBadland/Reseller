@@ -6,7 +6,8 @@ class BaseController extends \Core\App{
 
     public function __construct()
     {
-
+        
     }
+
 
 }

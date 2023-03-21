@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 class PromOrder {
 
     public $store = ''; //A название магазина

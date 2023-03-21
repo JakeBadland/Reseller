@@ -1,6 +1,8 @@
 <?php
-//define('AUTH_TOKEN', '0bdfa79dd84a89d0ce54e02eed6a212d38c20e9b');  // Your authorization token
+//define('AUTH_TOKEN', '');  // Your authorization token
 //define('HOST', 'my.prom.ua');  // e.g.: my.prom.ua, my.tiu.ru, my.satu.kz, my.deal.by, my.prom.md
+
+namespace Core\libs;
 
 class LibProm {
 
@@ -15,7 +17,7 @@ class LibProm {
     public function getOrders($page, $limit)
     {
         $path = '/api/v1/orders/list';
-        $client = new LibCurl();
+        $client = new \Core\Libs\LibCurl();
 
         $params = ['page' => $page, 'per_page' => $limit];
         $url = $this->apiUrl . $path . '?'.http_build_query($params);
