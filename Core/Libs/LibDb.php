@@ -1,6 +1,6 @@
 <?php
 
-//namespace libs;
+namespace Core\Libs;
 
 class LibDb {
 
@@ -19,12 +19,8 @@ class LibDb {
 
     private $query;
 
-    public function __construct()
+    public function __construct($config)
     {
-        $config = Config::get('database');
-
-        if (!$config) return;
-
         $this->host = $config['host'];
         $this->user = $config['user'];
         $this->password = $config['password'];
@@ -119,6 +115,7 @@ class LibDb {
     {
         $this->limit = 1;
         $this->buildQuery();
+
         return $this->fetchQuery($this->query)[0];
     }
 
@@ -151,11 +148,13 @@ class LibDb {
 
     private function dbConnect()
     {
-        $conn = new mysqli($this->host, $this->user, $this->password);
+        $conn = new \mysqli($this->host, $this->user, $this->password);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
+
+        $conn->set_charset("utf8");
 
         $this->connection = $conn;
     }

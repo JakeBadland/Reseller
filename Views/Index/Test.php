@@ -11,19 +11,19 @@
             <?php $back = "style='background-color: yellow'"; ?>
         <?php endif ?>
 
-        <TR id="tr<?=$key?>" >
+        <TR>
             <TD >
-                <BUTTON <?=$back?> class="copy">Copy</BUTTON>
+                <BUTTON <?=$back?> class="copy p5">COPY</BUTTON>
             </TD>
-            <TD class="storeName" style="background-color: rgb(150,0,0)"><?= $order->store ?></TD>
-            <TD><?= $order->name ?></TD>
-            <TD><?= $order->phone ?></TD>
-            <TD><?= $order->address ?></TD>
-            <TD><?= $order->date ?></TD>
-            <TD><?= $order->id ?></TD>
-            <TD><?= $order->price ?></TD>
-            <TD><?= $order->deliveryProvider ?></TD>
-            <TD><?= $order->description ?></TD>
+            <TD style="background-color: RGB(<?=$color?>)" class="shopName p5"><?= $order->store ?></TD>
+            <TD class="p5"><?= $order->name ?></TD>
+            <TD class="p5"><?= $order->phone ?></TD>
+            <TD class="p5 tac"><?= $order->address ?></TD>
+            <TD class="p5"><?= $order->date ?></TD>
+            <TD class="p5"><?= $order->id ?></TD>
+            <TD class="p5"><?= $order->price ?></TD>
+            <TD class="p5"><?= $order->deliveryProvider ?></TD>
+            <TD class="p5"><?= $order->description ?></TD>
             <TD style="background-color: rgb(255,0,255)"><?= $order->purchaseType ?></TD>
             <!--<TD><?= strtoupper($order->status) ?></TD>-->
         </TR>

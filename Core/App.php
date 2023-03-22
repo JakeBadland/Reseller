@@ -7,14 +7,15 @@ class App {
     public $request;
     public $config;
 
+    public $db;
+
     public function run()
     {
-        $this->init();
-
         spl_autoload_register(function ($class){
             $this->autoload($class);
         });
 
+        $this->init();
         $this->parseRequest();
         $this->call();
     }
@@ -26,6 +27,8 @@ class App {
 
     private function autoload($class)
     {
+        $class = str_replace('\\', DS , $class);
+
         $classFile = __DIR__ . DS . '..' . DS . $class . '.php';
 
         if (is_file($classFile)){
@@ -45,12 +48,16 @@ class App {
 
         $this->request = $url;
 
-        if (isset($url['path'][0])){
+        if (!empty($url['path'][0])){
             $this->request['class'] = $url['path'][0];
+        } else {
+            $this->request['class'] = 'Index';
         }
 
         if (isset($url['path'][1])){
             $this->request['method'] = $url['path'][1];
+        } else {
+            $this->request['method'] = 'Index';
         }
 
         if (isset($url['path'][2])){
@@ -61,12 +68,7 @@ class App {
     private function call()
     {
         $className = ucfirst($this->request['class']);
-
-        if (!isset($this->request['method'])){
-            $method = 'index';
-        } else {
-            $method = $this->request['method'];
-        }
+        $method = $this->request['method'];
 
         if (!isset($this->request['param'])){
             $param = null;
@@ -74,7 +76,7 @@ class App {
             $param = $this->request['param'];
         }
 
-        $class = '\\Controllers\\'.$className;
+        $class = '\\Controllers\\' . $className;
 
         $class = new $class();
 
@@ -118,6 +120,12 @@ class App {
         }
 
         return null;
+    }
+
+    public function redirect($url)
+    {
+        header('Location: '. $url);
+        die;
     }
 
 }
