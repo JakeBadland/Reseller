@@ -70,17 +70,20 @@ class OrderParser{
     private static function parseDelivery($deliveryAddress, $deliveryData) : ?string
     {
         if (!isset($deliveryData->provider)){
-            //return '$deliveryData->provider not set';
-            return '';
+            return '$deliveryData->provider not set';
+            //return '';
         }
 
         switch ($deliveryData->provider){
             case 'nova_poshta' : {
                 return 'Новая почта ' . self::getDelivery($deliveryAddress);
-                //if (!$addr) return '';
-                //return 'Новая почта ' . $addr;
             }
-            default: return 'Warning! ' . $deliveryData->provider;
+            case 'ukrposhta':{
+                return $deliveryAddress;
+            }
+            default: {
+                return 'Warning! delivery address can`t be identified!';
+            }
         }
     }
 
@@ -111,6 +114,9 @@ class OrderParser{
         switch ($deliveryData->provider){
             case 'nova_poshta' : {
                 return self::parseNovaPoshta($deliveryAddress);
+            }
+            case 'ukrposhta':{
+                return $deliveryAddress;
             }
             default: return '';
         }
